@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite failures="0" name="cucumber.runtime.formatter.JUnitFormatter" skipped="0" tests="2" time="6.510226">
+<testcase classname="Test The Sample MVC application" name="Validate text on page" time="3.351381">
+<system-out><![CDATA[Given My WebApp 'SampleMVC' is open.........................................passed
+Then I should see element 'Count' present on page_..........................passed
+]]></system-out>
+</testcase>
+<testcase classname="Test The Sample MVC application" name="Verify Word count function" time="3.158845">
+<system-out><![CDATA[Given I enter 'TestWord!' in field 'EnterWord'..............................passed
+And I click 'Count'.........................................................passed
+Then I should see text 'The word TestWord! has 9 characters.' present on page at 'Result'.passed
+Then I click link 'back'....................................................passed
+Then I should see element 'Count' present on page...........................passed
+]]></system-out>
+</testcase>
+</testsuite>

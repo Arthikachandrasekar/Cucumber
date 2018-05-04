@@ -11,8 +11,8 @@ And I enter 'SQAtest2' in field 'Ping_Username'
 And I enter 'PSCU@1234' in field 'Ping_Password'
 And I enter '2113' in field 'Ping_ClientId'
 And I click 'Ping_LogIN'
-And I wait for visibility of element 'SearchPopUp_Close'
-And I click 'SearchPopUp_Close'
+#And I wait for visibility of element 'SearchPopUp_Close'
+#And I click 'SearchPopUp_Close'
 Then I should see text 'sqatest2.21' present on page at 'QAssist_UserNameDisp'
 Then I wait for '10' seconds
 

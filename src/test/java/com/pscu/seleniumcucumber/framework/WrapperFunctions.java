@@ -440,23 +440,19 @@ public class WrapperFunctions
 		try{
 			JavascriptExecutor executor = (JavascriptExecutor)driver;
 
-			switch(scrollType){
-			case "top":
+			if(scrollType.equalsIgnoreCase("top")){
 				executor.executeScript("window.scrollTo(0,0)");
-			case "bottom":
+			}else if(scrollType.equalsIgnoreCase("bottom")){
 				executor.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-				break;
-			case "element":
+			}else if(scrollType.equalsIgnoreCase("element")){
 				waitForElementPresence(GetPageObject.OR_GetElement(target),30);
 				//System.out.println("Scorlling to Element"+GetPageObject.OR_GetElement(target));
 				executor.executeScript("arguments[0].scrollIntoView();", driver.findElement(GetPageObject.OR_GetElement(target)));
-				break;
-			case "coordinates":
+			}else if(scrollType.equalsIgnoreCase("coordinates")){
 				String[] coordinates = target.split(",");
 				String x = coordinates[0];
 				String y = coordinates[1];
 				executor.executeScript("window.scrollBy("+x+","+y+")");
-				break;
 			}
 			return true;
 		}catch(Exception exception){
@@ -748,40 +744,22 @@ public class WrapperFunctions
 	public static By setLocator(String locatorType,String locator){
 
 
-		switch(locatorType.toLowerCase()){
-
-		case "id":
+		if(locatorType.equalsIgnoreCase("id")){
 			by = By.id(locator);
-			break;
-
-		case "classname":
+		}else if(locatorType.equals("classname")){	
 			by = By.className(locator);
-			break;
-
-		case "name":
+		}else if(locatorType.equals("name")){
 			by = By.name(locator);
-			break;
-
-		case "linktext":
+		}else if(locatorType.equals("linkText")){
 			by = By.linkText(locator);
-			break;
-
-		case "partiallinktext":
+		}else if(locatorType.equals("partiallinktext")){
 			by = By.partialLinkText(locator);
-			break;
-
-		case "cssselector":
+		}else if(locatorType.equals("cssselector")){
 			by = By.cssSelector(locator);
-			break;
-
-		case "xpath":
+		}else if(locatorType.equals("xpath")){
 			by = By.xpath(locator);
-			break;
-
-		case "tagname":
+		}else if(locatorType.equals("tagname")){
 			by = By.tagName(locator);
-			break;
-
 		}		
 		return by;
 	}

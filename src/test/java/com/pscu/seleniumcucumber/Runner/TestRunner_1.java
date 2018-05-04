@@ -19,7 +19,7 @@ import com.pscu.seleniumcucumber.framework.TestConfig;
 		strict = true, 
 		features = { "src/test/java/com/pscu/seleniumcucumber/features" }, 
 		glue = { "com.pscu.seleniumcucumber.Hooks","com.pscu.seleniumcucumber.stepDefinitions" }, 
-		tags = { "@QuickAssist_Sanity","~@Ignore" }, 
+		tags = { "@Q","~@Ignore" }, 
 		monochrome = false
 		)
 

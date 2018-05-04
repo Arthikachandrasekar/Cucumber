@@ -3,8 +3,6 @@ package com.pscu.seleniumcucumber.framework;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.OutputType;
@@ -17,9 +15,9 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import cucumber.api.Scenario;
-
 import java.net.URL;
 
 /**
@@ -49,12 +47,12 @@ public class StepBase {
 	static String BS_USERNAME = "tahapatel2";
 	static String BS_AUTOMATE_KEY = "roqjsEDEWtdYtXXmuzr5";
 	 
-	final static String BrowserStackURL = null;
+	static String BrowserStackURL = null;
 
 	/**
 	 * @Method: setUp
 	 * @Description: This method is used to initialize test execution
-	 *               environment i.e. appium driver initialization, setting
+	 *               environment i.e. driver initialization, setting
 	 *               capabilities for selected device
 	 * @author Swathin Ratheendren
 	 * @throws Exception 
@@ -70,31 +68,37 @@ public class StepBase {
 		try {
 			testPlatform = Platform;
 			testBrowser = Browser;
-			
 
-			//if (Platform.equalsIgnoreCase("desktop")||Platform.equalsIgnoreCase("mac")||Platform.equals("mac")) {
 			if (Platform.equalsIgnoreCase("desktop")||Platform.equalsIgnoreCase("mac")) {
-				switch(Browser.toLowerCase())
+				if(Browser.toLowerCase().equals("chrome"))
 				{
-				case "chrome":
-					System.setProperty("webdriver.chrome.driver", "D:\\Workspace\\CucumberFramework\\src\\test\\java\\com\\pscu\\seleniumcucumber\\resources\\chromedriver_win32\\chromedriver.exe");
+					System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/java/com/PSCU/Resources/chromedriver.exe");
 					capabilities= DesiredCapabilities.chrome();
 					capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 					driver = new ChromeDriver(new ChromeOptions());
 					driver.manage().window().maximize();
-					break;
-				case "firefox":
-					System.setProperty("webdriver.gecko.driver",System.getProperty("user.dir") + "/src/test/java/com/Cucumber/resources/geckodriver.exe");
+				}else if(Browser.toLowerCase().equals("firefox")){
+					System.setProperty("webdriver.gecko.driver",System.getProperty("user.dir") + "/src/test/java/com/PSCU/Resources/geckodriver.exe");
 					System.out.println("Executing test on Firefox browser");
 					driver = new FirefoxDriver();
 					driver.manage().window().maximize();
-					break;
-				case "ie":
+				}else if(Browser.toLowerCase().equals("ie")){
+					System.setProperty("webdriver.ie.driver",System.getProperty("user.dir") + "/src/test/java/com/PSCU/Resources/IEDriverServer.exe");
 					System.out.println("Executing test on Internet Explorer browser");
 					driver = new InternetExplorerDriver();
 					driver.manage().window().maximize();
-					break;
-				case "browserstack":
+				}else if(Browser.toLowerCase().equals("edge")){
+					System.setProperty("webdriver.edge.driver",System.getProperty("user.dir") + "/src/test/java/com/PSCU/Resources/MicrosoftWebDriver.exe");
+					System.out.println("Executing test on Internet Explorer browser");
+					driver = new InternetExplorerDriver();
+					driver.manage().window().maximize();
+				}else if(Browser.toLowerCase().equals("safari")){
+					capabilities = new DesiredCapabilities();
+					capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+					System.out.println("Executing test on Safari browser");
+					driver = new SafariDriver(capabilities);
+					driver.manage().window().maximize();
+				}else if(Browser.toLowerCase().equals("browserstack")){
 					capabilities = new DesiredCapabilities();
 					//Browser stack
 					capabilities.setCapability("browserstack.debug", "true");
@@ -108,87 +112,20 @@ public class StepBase {
 					String BrowserStackURL = "https://" + USERNAME + ":" + AUTOMATE_KEY + "@hub-cloud.browserstack.com/wd/hub";
 					driver = new RemoteWebDriver(new URL(BrowserStackURL), capabilities);
 					Thread.sleep(7000);
-					break;
-				case "saucelabs":
-					String username = "RoyalCyberTest";
-					String key = "a7bd305d-db4c-45f3-8cd6-e8f2591223c8";
-					String seleniumURI = "@ondemand.saucelabs.com:443";
-					String SLurl= "https://" + username + ":" + key + seleniumURI +"/wd/hub";
-					capabilities = new DesiredCapabilities();
-					capabilities.setCapability("platformName", "Android");
-					capabilities.setCapability("deviceName", "Samsung Galaxy S6 Emulator");
-					capabilities.setCapability("platformVersion", "5.0");
-					capabilities.setCapability("browserName", "");
-					capabilities.setCapability("deviceOrientation", "portrait");
-					capabilities.setCapability("appiumVersion", "1.5.3");
-					System.out.println("Executing test on Saucelabs cloud!");
-					driver = new RemoteWebDriver(new URL(SLurl), capabilities);
-					Thread.sleep(7000);
-					break;
-				case "saucelabs-safari":
-					String usernamesls = "RoyalCyberTest";
-					String keysls = "a7bd305d-db4c-45f3-8cd6-e8f2591223c8";
-					String seleniumURIsls = "@ondemand.saucelabs.com:443";
-					String SLurlS= "https://" + usernamesls + ":" + keysls + seleniumURIsls +"/wd/hub";
-					// set desired capabilities to launch appropriate browser on Sauce
-					capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-					capabilities.setCapability("platform", "OS X 10.11");
-					capabilities.setCapability("version", "10.0");
-					capabilities.setCapability("browserName", "Safari");
-					capabilities.setCapability("name", "Safari_on_MacOSX10.11");
-					System.out.println("Executing test on Safari Browser on Saucelabs cloud!");
-					driver = new RemoteWebDriver(new URL(SLurlS), capabilities);
-					Thread.sleep(7000);
-					break;	
-			
-				case "browserstack-android":
-					capabilities = new DesiredCapabilities();
-					//capabilities setting for Samsung S8 - Browser stack
-					capabilities.setCapability("browserstack.debug", "true");
-					capabilities.setCapability("device", "Samsung Galaxy S8");
-					capabilities.setCapability("realMobile", "true");
-					capabilities.setCapability("os_version", "7.0");
-					capabilities.setCapability("unicodeKeyboard", "true");
-					System.out.println("Executing test on Samsung S8(Android) on Browser Stack cloud!");
-					BrowserStackURL= "https://" + BS_USERNAME + ":" + BS_AUTOMATE_KEY + "@hub-cloud.browserstack.com/wd/hub";
-					driver = new RemoteWebDriver(new URL(BrowserStackURL), capabilities);
-					break;
-					
-				case "browserstack-safari":
-					capabilities = new DesiredCapabilities();
-					//capabilities setting for Mac Safari Browser - Browser stack
-					capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-					capabilities.setCapability("browserstack.debug", "true");
-					capabilities.setCapability("browserName", "Safari");
-					capabilities.setCapability("platform", "MAC");
-					System.out.println("Executing test on Safari-Mac on Browser Stack cloud!");
-					BrowserStackURL= "https://" + BS_USERNAME + ":" + BS_AUTOMATE_KEY + "@hub-cloud.browserstack.com/wd/hub";
-					driver = new RemoteWebDriver(new URL(BrowserStackURL), capabilities);
-					break;	
-				default:
+				}else {
 					System.out.println("Provide valid browser choice in config file!");
-					break;
 				}
 
 				driver.manage().timeouts().implicitlyWait(Integer.parseInt(System.getProperty("test.implicitlyWait")), TimeUnit.SECONDS);
 				//driver.manage().timeouts().pageLoadTimeout(Integer.parseInt(System.getProperty("test.pageLoadTimeout")), TimeUnit.SECONDS);
 			}	
-			
-	
-
-				driver.manage().timeouts().implicitlyWait(Integer.parseInt(System.getProperty("test.implicitlyWait")), TimeUnit.SECONDS);
-				if(Platform.equals("desktop")||System.getProperty("test.AppType").equals("webapp")){
-					//driver.manage().timeouts().pageLoadTimeout(Integer.parseInt(System.getProperty("test.pageLoadTimeout")), TimeUnit.SECONDS);
-				}
-			
-
-					} catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
 	}
 
-	
+
 	/**
 	 * @Method: getDriver
 	 * @Description: This method returns appium driver instance.

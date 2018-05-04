@@ -39,9 +39,9 @@ public class GenerateCustomReport
 		{
 			dateFormat = DateTimeFormat.forPattern("yyyy-MM-dd_HHmmss");
 			String currentTimeStamp = dateFormat.print(new DateTime());
-			reportPath = "src/test/java/com/Cucumber/testresult/custom-report/cucumber-html-reports_" + currentTimeStamp+"_"+Platform+"_"+Browser;
-			jsonFilePath = "src/test/java/com/Cucumber/testresult/cucumber-report/";
-			xmlFilePath = "src/test/java/com/Cucumber/testresult/cucumber-report/cucumber.xml";
+			reportPath = "src/test/java/com/pscu/TestResults/custom-report/cucumber-html-reports_" + currentTimeStamp+"_"+Platform+"_"+Browser;
+			jsonFilePath = "src/test/java/com/pscu/TestResults/cucumber-report/";
+			xmlFilePath = "src/test/java/com/pscu/TestResults/cucumber-report/cucumber.xml";
 
 			List<String> jsonReportFiles = new ArrayList<String>();
 			
@@ -74,9 +74,8 @@ public class GenerateCustomReport
 			//objUtilities.copyFileUsingStream(new File(xmlFilePath), new File(reportPath + "/cucumber.xml"));
 			
 			Runtime rTime = Runtime.getRuntime();
-			String url = reportPath;
 			String browser = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe ";
-			Process pc = rTime.exec(browser +System.getProperty("user.dir")+"/"+ url);
+			Process pc = rTime.exec(browser +System.getProperty("user.dir")+"/"+ reportPath);
 			pc.waitFor();
 		}
 		catch (Exception exception)

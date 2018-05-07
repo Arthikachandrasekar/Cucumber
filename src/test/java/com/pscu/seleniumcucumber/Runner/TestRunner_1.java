@@ -60,7 +60,7 @@ public class TestRunner_1{
 			if(!System.getProperty("test.DisableCucumberReport").equalsIgnoreCase("true"))
 			{
 		        //Cucumber Report Generation
-		        GenerateCustomReport.generateCustomeReport(Browser, Platform);
+		       //GenerateCustomReport.generateCustomeReport(Browser, Platform, "cucumber_1.json");
 				HashMapContainer.ClearHM();
 			}
 		} catch (Exception e) {

@@ -72,6 +72,7 @@ public class StepBase {
 			if (Platform.equalsIgnoreCase("desktop")||Platform.equalsIgnoreCase("mac")) {
 				if(Browser.toLowerCase().equals("chrome"))
 				{
+					System.out.println("Curent Directory: "+System.getProperty("user.dir"));
 					System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/java/com/PSCU/Resources/chromedriver.exe");
 					capabilities= DesiredCapabilities.chrome();
 					capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);

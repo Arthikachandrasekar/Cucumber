@@ -30,10 +30,10 @@ public class GenerateCustomReport
 	static private boolean parallelTesting;
 	static private boolean missingFails;
 	static private DateTimeFormatter dateFormat;
-	static private Utilities objUtilities = new Utilities(); 
+	//static private Utilities objUtilities = new Utilities(); 
 	
 	
-	public static void generateCustomeReport(String Browser, String Platform)
+	public static void generateCustomeReport(String Browser, String Platform, String cucumberJSon)
 	{
 		try
 		{
@@ -45,8 +45,8 @@ public class GenerateCustomReport
 
 			List<String> jsonReportFiles = new ArrayList<String>();
 			
-			jsonReportFiles.add(jsonFilePath+"cucumber_1.json");
-			jsonReportFiles.add(jsonFilePath+"cucumber_2.json");
+			jsonReportFiles.add(jsonFilePath+cucumberJSon);
+			//jsonReportFiles.add(jsonFilePath+"cucumber_2.json");
 			
 			buildNumber = "1";
 			buildProjectName = "Royal Cyber Test Automation";
